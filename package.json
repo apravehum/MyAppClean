@@ -1,0 +1,25 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "App for keeping track of Microsoft Teams calls",
+  "main": "main.js",
+  "scripts": {
+    "start": "npm run build && electron ./build/main.js",
+    "build": "tsc"
+  },
+  "author": "Ernests Gorns",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^24.1.2",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@azure/msal-browser": "^2.35.0",
+    "@azure/msal-node": "^1.17.0",
+    "@microsoft/microsoft-graph-client": "^3.0.5",
+    "@microsoft/microsoft-graph-types": "^2.26.0",
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
+    "popper.js": "^1.16.1"
+  }
+}
