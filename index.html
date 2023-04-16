@@ -1,54 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
-    <title>MSAL Node Electron Sample App</title>
-
-    <!-- adding Bootstrap 4 for UI components  -->
-    <!-- <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand">Microsoft identity platform</a>
-        <div class="btn-group ml-auto dropleft">
-            <button type="button" id="signIn" class="btn btn-secondary" aria-expanded="false">
-                Sign in
-            </button>
-            <button type="button" id="signOut" class="btn btn-success" hidden aria-expanded="false">
-                Sign out
-            </button>
-        </div>
-    </nav>
-    <br>
-    <h5 class="card-header text-center">Electron sample app calling MS Graph API using MSAL Node</h5>
-    <br>
-    <div class="row" style="margin:auto">
-        <div id="cardDiv" class="col-md-6" style="display:none; margin:auto">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h5 class="card-title" id="WelcomeMessage">Please sign-in to see your profile and read your mails
-                    </h5>
-                    <div id="profileDiv"></div>
-                    <br>
-                    <br>
-                    <button class="btn btn-primary" id="seeProfile">See Profile</button>
-                </div>
-            </div>
-        </div>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <!-- <link href="./styles.css" rel="stylesheet"> -->
+    <title>Teams Call Tracking</title>
+  </head>
+  <body>
+    <div id="welcomeDiv">
+      <h1>Please log in!</h1>
+      <div class="center-container"></div>
+        <button type="button" id="signIn">
+          Sign in
+        </button>
     </div>
-
-    <!-- importing bootstrap.js and supporting js libraries -->
-    <!-- <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/popper.js/dist/umd/popper.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script> -->
-
-    <!-- importing app scripts | load order is important -->
-    <script src="./build/renderer.js"></script>
-
-</body>
-
+    </div>
+    <div id="successfulLoginDiv" hidden></div>
+    <div id="projectNameDiv" hidden>
+      <label>Project Name:</label>
+      <input type="text" id="projectName">
+    </div>
+    <br>
+    <div id="discussionDescriptionDiv" hidden>
+      <label>Description:</label>
+      <input type="text" id="discussionDescription">
+    </div>
+    <br>
+    <div id="submitInfoDiv" hidden>
+      <button id="submitInfoButton">
+        Submit
+      </button>
+    </div>
+    <script type="module" src="./build/renderer.js"></script>
+  </body>
 </html>

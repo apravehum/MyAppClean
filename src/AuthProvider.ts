@@ -105,7 +105,7 @@ export class AuthProvider {
                         contextIsolation: true,
                     },
                     title: "Teams Call Tracking",
-                    icon: path.join(__dirname, '../../time.png'), // Add this line
+                    icon: path.join(__dirname, '../time.png'), // Add this line
                 });
 
                 console.log(url);

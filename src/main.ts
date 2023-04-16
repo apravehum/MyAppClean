@@ -3,10 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import path from "path";
+import * as path from "path";
 import { app, ipcMain, BrowserWindow, Tray, Menu } from "electron";
 import { AuthProvider } from "./AuthProvider";
-import { IPC_MESSAGES } from "./constants";
 import { protectedResources, msalConfig } from "./authConfig";
 import { getGraphClient } from "./graph";
 import { presenceConfig } from "./types/presenceConfig";
@@ -19,63 +18,11 @@ let fetchUserStatusInterval: NodeJS.Timeout;
 let appIsQuitting = false;
 let previousUserStatus = '';
 
-app.on("ready", () => {
-    createWindow();
-    mainWindow.loadFile(path.join(__dirname, "../index.html"));
-});
-
-app.on("window-all-closed", () => {
-    app.quit();
-});
-
-app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
-    }
-});
-
-
-// Event handlers
-ipcMain.on('sendLoginMessage', async () => {
-    const account = await authProvider.login();
-
-    await mainWindow.loadFile(path.join(__dirname, "../index.html"));
-    
-    mainWindow.webContents.send(IPC_MESSAGES.SHOW_WELCOME_MESSAGE, account);
-});
-
-ipcMain.on('sendSignoutMessage', async () => {
-    await authProvider.logout();
-
-    await mainWindow.loadFile(path.join(__dirname, "../index.html"));
-});
-
-ipcMain.on('sendSeeProfileMessage', async () => {
-    const tokenRequest = {
-        scopes: protectedResources.graphMe.scopes,
-        redirectUri: '',
-        code: '',
-    };
-
-    const tokenResponse = await authProvider.getToken(tokenRequest);
-    const account = authProvider.account;
-
-    await mainWindow.loadFile(path.join(__dirname, "../index.html"));
-
-    const graphResponse = await getGraphClient(tokenResponse!.accessToken)
-        .api(protectedResources.graphMe.endpointme).get();
-
-    mainWindow.webContents.send(IPC_MESSAGES.SHOW_WELCOME_MESSAGE, account);
-    mainWindow.webContents.send(IPC_MESSAGES.SET_PROFILE, graphResponse);
-});
-
 //events
 //load main window
 app.on("ready", () => {
     createWindow();
-    mainWindow.loadFile(path.join(__dirname, "../../index.html"));
+    mainWindow.loadFile(path.join(__dirname, "../index.html"));
     createTray();
 });
 
@@ -149,6 +96,7 @@ ipcMain.on('start-fetching-user-status', async () => {
 
 //hide all windows function
 ipcMain.on('hide-all-windows', () => {
+    console.log("Hide event started...");
     // Get all open windows
     const windows = BrowserWindow.getAllWindows();
 
@@ -160,6 +108,7 @@ ipcMain.on('hide-all-windows', () => {
 
 //event for resizing browser window
 ipcMain.on('resize-main-window', (event, width, height) => {
+    console.log("Resize event started...");
     mainWindow.setSize(width, height);
 });
 
@@ -180,12 +129,12 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 400,
         height: 200,
-        // autoHideMenuBar: true,
+        autoHideMenuBar: true,
         webPreferences: { 
             contextIsolation: false,
             nodeIntegration: true
         },
-        icon: path.join(__dirname, '../../time.png')
+        icon: path.join(__dirname, '../time.png')
     });
 
     mainWindow.on('close', (event: Event) => {
@@ -201,7 +150,7 @@ function createWindow() {
 //tray
 function createTray() {
     try {
-        tray = new Tray(path.join(__dirname, '../..', 'time.png'));
+        tray = new Tray(path.join(__dirname, '../time.png'));
 
         const contextMenu = Menu.buildFromTemplate([
             {
