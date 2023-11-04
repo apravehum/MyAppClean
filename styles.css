@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    padding: 10px 24px;
+    border-radius: 4px;
+}
+
+#welcomeDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#mainScreenButtonDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#submitInfoDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;  
+}
+
+.scrollable-table {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }

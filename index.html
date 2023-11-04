@@ -2,9 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
-    <!-- <link href="./styles.css" rel="stylesheet"> -->
+    <link href="./styles.css" rel="stylesheet">
     <title>Teams Call Tracking</title>
   </head>
   <body>
@@ -15,22 +13,50 @@
           Sign in
         </button>
     </div>
-    </div>
-    <div id="successfulLoginDiv" hidden></div>
-    <div id="projectNameDiv" hidden>
-      <label>Project Name:</label>
-      <input type="text" id="projectName">
-    </div>
-    <br>
-    <div id="discussionDescriptionDiv" hidden>
-      <label>Description:</label>
-      <input type="text" id="discussionDescription">
-    </div>
-    <br>
-    <div id="submitInfoDiv" hidden>
-      <button id="submitInfoButton">
-        Submit
-      </button>
+    <div id="mainScreenDiv" hidden>
+      <h1 id="greetingH1"></h1>
+      <div id="mainScreenButtonDiv" hidden>
+          <button id="addActivityButton">Add Activity</button>
+          <button id="viewReportButton">View Report</button>
+      </div>
+      <p id="messageP" hidden></p>
+      <div id="addActivityDiv" hidden>
+        <div id="projectNameDiv">
+          <label>Project Name:</label>
+          <input type="text" id="projectName">
+        </div>
+        <br>
+        <div id="discussionDescriptionDiv">
+          <label>Description:</label>
+          <input type="text" id="discussionDescription">
+        </div>
+        <br>
+        <div id="submitInfoDiv">
+          <button id="submitInfoButton">Submit</button>
+          <button id="addActivityBackButton">Back</button>
+        </div>
+      </div>
+      <div id="viewReportDiv" hidden>
+        <label for="projectFilter">Filter by project:</label>
+        <select id="projectFilter">
+          <option value="">All projects</option>
+        </select>
+        <div class="scrollable-table">
+          <table id="reportTable">
+            <thead>
+              <tr>
+                <th data-sort="date">Date</th>
+                <th data-sort="project">Project</th>
+                <th>Description</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <button id="viewReportBackButton">Back</button>
+      </div>
     </div>
     <script type="module" src="./build/renderer.js"></script>
   </body>

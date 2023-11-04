@@ -17,6 +17,7 @@ let tray: Tray | null;
 let fetchUserStatusInterval: NodeJS.Timeout;
 let appIsQuitting = false;
 let previousUserStatus = '';
+let callStartTime: Date | null;
 
 //events
 //load main window
@@ -79,8 +80,13 @@ ipcMain.on('start-fetching-user-status', async () => {
         console.log(`Current status is: ${graphResponse.activity}`);
 
         if (isCallEnded(graphResponse)) {
-            mainWindow.webContents.send('call-ended');
+            const callEndTime = new Date();
+            console.log(callEndTime.getTime() + "-------------------------------------" + callStartTime!.getTime())
+            console.log(`End time: ${callEndTime}`);
+            const callDuration = callEndTime.getTime() - callStartTime!.getTime();
+            mainWindow.webContents.send('call-ended', callDuration);
             mainWindow.show();
+            callStartTime = null;
         }
 
         previousUserStatus = graphResponse.activity;
@@ -129,7 +135,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 400,
         height: 200,
-        autoHideMenuBar: true,
+        // autoHideMenuBar: true,
         webPreferences: { 
             contextIsolation: false,
             nodeIntegration: true
@@ -169,7 +175,7 @@ function createTray() {
             },
         ]);
 
-        tray.setToolTip('Tray App');
+        tray.setToolTip('Teams Call Tracking');
         tray.setContextMenu(contextMenu);
 
         tray.on('double-click', () => {
@@ -182,6 +188,13 @@ function createTray() {
 
 //Checks if call ended by comparing old status to new status
 function isCallEnded(graphResponse: {activity: string}) {
+    // Check if status changed from not in a call to in a call to catch call start timestamp
+    if (presenceConfig.notInACallStatusArray.includes(previousUserStatus) && presenceConfig.inACallStatusArray.includes(graphResponse.activity)) {
+        callStartTime = new Date();
+        console.log(`Start time: ${callStartTime}`);
+    }
+
+    // Check if status changed from in a call status to not in a call status
     if (presenceConfig.inACallStatusArray.includes(previousUserStatus) && presenceConfig.notInACallStatusArray.includes(graphResponse.activity)) {
         return true;
     } else {
